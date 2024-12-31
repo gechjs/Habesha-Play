@@ -12,14 +12,20 @@ const Row = ({ fetchUrl, title, isLargeRow }) => {
   const imgBaseUrl = "https://image.tmdb.org/t/p/original/";
   const [trailerUrl, setTrailerUrl] = useState("");
   const sliderRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const fetchMovie = async () => {
       try {
+        setIsLoading(true);
         const response = await instance.get(fetchUrl);
         setMovies(response.data.results);
+        setIsLoading(false);
       } catch (error) {
+        setHasError(true);
         console.error(error);
+        setIsLoading(false);
       }
     };
     fetchMovie();
@@ -43,7 +49,7 @@ const Row = ({ fetchUrl, title, isLargeRow }) => {
     }
   };
 
-  const handleClick = (movie) => {
+  const handleMovieClick = (movie) => {
     if (trailerUrl) {
       setTrailerUrl("");
     } else {
@@ -86,18 +92,24 @@ const Row = ({ fetchUrl, title, isLargeRow }) => {
         </>
       )}
       <div className="row_posters" ref={sliderRef}>
-        {movies.map((movie, index) => {
-          const imagePath = isLargeRow ? movie.poster_path : movie.backdrop_path;
-          return imagePath ? (
-            <img
-              key={index}
-              onClick={() => handleClick(movie)}
-              src={`${imgBaseUrl}${imagePath}`}
-              className={`row_poster ${isLargeRow ? "row_posterLarge" : ""}`}
-              alt={movie.name}
-            />
-          ) : null; // Conditional rendering of the image
-        })}
+        {isLoading ? (
+          <div className="loading">Loading...</div>
+        ) : hasError ? (
+          <div className="error">Error loading movies.</div>
+        ) : (
+          movies.map((movie, index) => {
+            const imagePath = isLargeRow ? movie.poster_path : movie.backdrop_path;
+            return imagePath && ( // Check if imagePath is not null before rendering
+              <img
+                key={index}
+                onClick={() => handleMovieClick(movie)}
+                src={`${imgBaseUrl}${imagePath}`}
+                className={`row_poster ${isLargeRow ? "row_posterLarge" : ""}`}
+                alt={movie.name || movie.title || movie.original_name}
+              />
+            );
+          })
+        )}
       </div>
       <div style={{ padding: "40px" }}>
         {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
