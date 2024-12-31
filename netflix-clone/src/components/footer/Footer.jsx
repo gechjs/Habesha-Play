@@ -1,5 +1,5 @@
-import React from 'react'
-import './css/footer.css'
+import React from 'react';
+import './css/footer.css';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
@@ -12,13 +12,13 @@ function Footer() {
           <FacebookOutlinedIcon />
           <YouTubeIcon />
           <InstagramIcon />
-
         </div>
+
         <div className="footer_data">
           <div>
             <ul>
               <li>Audio Description</li>
-              <li>Investor relations</li>
+              <li>Investor Relations</li>
               <li>Legal Notice</li>
             </ul>
           </div>
@@ -32,7 +32,7 @@ function Footer() {
           <div>
             <ul>
               <li>Gift Cards</li>
-              <li>Terms of Uses</li>
+              <li>Terms of Use</li>
               <li>Corporate Information</li>
             </ul>
           </div>
@@ -44,16 +44,17 @@ function Footer() {
             </ul>
           </div>
         </div>
+
         <div className="service_code">
           <p>Service Code</p>
         </div>
+
         <div className="copy_write">
           &copy; 1997-2024 Netflix, Inc.
         </div>
       </div>
     </div>
-
-  )
+  );
 }
 
-export default Footer
+export default Footer;
