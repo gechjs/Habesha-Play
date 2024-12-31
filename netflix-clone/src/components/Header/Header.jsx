@@ -5,8 +5,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
 function Header() {
-  const [x, setX] = useState(0);
+  const [isSearchVisible, setIsSearchVisible] = useState(false); 
 
   return (
     <div className="header_outer_container">
@@ -26,8 +27,12 @@ function Header() {
         </div>
         <div className="header_right">
           <ul>
-            <li onClick={()=> setX((x)=>x+1)}>
-              {x%2 == 0 ?<SearchIcon /> : <input type="text" />}
+            <li onClick={() => setIsSearchVisible(!isSearchVisible)}> 
+              {isSearchVisible ? (
+                <input type="text" />
+              ) : (
+                <SearchIcon />
+              )}
             </li>
             <li>
               <NotificationsNoneIcon />
