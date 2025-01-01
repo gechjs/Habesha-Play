@@ -19,7 +19,7 @@ function Footer() {
             <ul>
               <li>Audio Description</li>
               <li>Investor Relations</li>
-              <li>Legal Notice</li>
+              <li>Legal Notices</li> 
             </ul>
           </div>
           <div>
