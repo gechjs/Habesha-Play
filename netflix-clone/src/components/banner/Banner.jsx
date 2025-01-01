@@ -10,12 +10,18 @@ const Banner = () => {
     const getMovie = async () => {
       try {
         const response = await instance.get(requests.fetchNetflixOriginals);
-        console.log(response.data.results);
+        // Filter movies with vote_average above a certain threshold (e.g., 7) for better recommendations
+        const filteredMovies = response.data.results.filter(
+          (movie) => movie.vote_average >= 7
+        );
         const randomMovie =
-          response.data.results[
-            Math.floor(Math.random() * response.data.results.length)
-          ];
-        console.log(randomMovie); 
+          filteredMovies.length > 0
+            ? filteredMovies[
+                Math.floor(Math.random() * filteredMovies.length)
+              ]
+            : response.data.results[
+                Math.floor(Math.random() * response.data.results.length)
+              ];
         setMovie(randomMovie);
       } catch (error) {
         console.log(error);
