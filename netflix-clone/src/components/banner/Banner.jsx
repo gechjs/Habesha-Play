@@ -53,10 +53,12 @@ const Banner = () => {
             <h1 className="banner_title">
               {movie?.title || movie?.name || movie?.original_name}
             </h1>
-            <div className="banner_buttons">
-              <div className="banner_button play">Play</div>
-              <div className="banner_button">My List</div>
-            </div>
+            {movie && movie.title && (
+              <div className="banner_buttons">
+                <div className="banner_button play">Play</div>
+                <div className="banner_button">My List</div>
+              </div>
+            )}
             <h1 className="banner_description">
               {movie?.overview?.length > 150
                 ? movie?.overview.slice(0, 150) + "..."
