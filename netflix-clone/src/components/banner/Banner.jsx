@@ -5,12 +5,12 @@ import "./css/banner.css";
 
 const Banner = () => {
   const [movie, setMovie] = useState({});
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const getMovie = async () => {
       try {
         const response = await instance.get(requests.fetchNetflixOriginals);
-        // Filter movies with vote_average above a certain threshold (e.g., 7) for better recommendations
         const filteredMovies = response.data.results.filter(
           (movie) => movie.vote_average >= 7
         );
@@ -23,8 +23,10 @@ const Banner = () => {
                 Math.floor(Math.random() * response.data.results.length)
               ];
         setMovie(randomMovie);
-      } catch (error) {
-        console.log(error);
+        setError(false);
+      } catch (err) {
+        console.error(err);
+        setError(true);
       }
     };
 
@@ -42,18 +44,24 @@ const Banner = () => {
       }}
     >
       <div className="banner_contents">
-        <h1 className="banner_title">
-          {movie?.title || movie?.name || movie?.original_name}
-        </h1>
-        <div className="banner_buttons">
-          <div className="banner_button play">Play</div>
-          <div className="banner_button">My List</div>
-        </div>
-        <h1 className="banner_description">
-          {(movie?.overview)?.length > 150
-            ? movie?.overview.slice(0, 150) + "..."
-            : movie?.overview}
-        </h1>
+        {error ? (
+          <h1 className="banner_error">Failed to load banner content. Please try again later.</h1>
+        ) : (
+          <>
+            <h1 className="banner_title">
+              {movie?.title || movie?.name || movie?.original_name}
+            </h1>
+            <div className="banner_buttons">
+              <div className="banner_button play">Play</div>
+              <div className="banner_button">My List</div>
+            </div>
+            <h1 className="banner_description">
+              {movie?.overview?.length > 150
+                ? movie?.overview.slice(0, 150) + "..."
+                : movie?.overview}
+            </h1>
+          </>
+        )}
       </div>
       <div className="banner_fadeBottom" />
     </div>
