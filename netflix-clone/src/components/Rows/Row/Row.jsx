@@ -6,6 +6,12 @@ import YouTube from "react-youtube";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
+
+const Loading = () => <div className="loading">Loading...</div>;
+
+
+const ErrorMessage = () => <div className="error">Error loading movies.</div>;
+
 const Row = ({ fetchUrl, title, isLargeRow }) => {
   const [movies, setMovies] = useState([]);
   const [arrowVisible, setArrowVisible] = useState(false);
@@ -93,9 +99,9 @@ const Row = ({ fetchUrl, title, isLargeRow }) => {
       )}
       <div className="row_posters" ref={sliderRef}>
         {isLoading ? (
-          <div className="loading">Loading...</div>
+          <Loading />
         ) : hasError ? (
-          <div className="error">Error loading movies.</div>
+          <ErrorMessage />
         ) : (
           movies.map((movie, index) => {
             const imagePath = isLargeRow ? movie.poster_path : movie.backdrop_path;
