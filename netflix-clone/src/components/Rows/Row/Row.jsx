@@ -2,9 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import "./css/row.css";
 import instance from "../../../utils/axios";
 import movieTrailer from "movie-trailer";
-import YouTube from "react-youtube";
+import TrailerModal from "../../TrailerModal/TrailerModal";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 
 const Loading = () => <div className="loading">Loading...</div>;
@@ -17,6 +18,8 @@ const Row = ({ fetchUrl, title, isLargeRow }) => {
   const [arrowVisible, setArrowVisible] = useState(false);
   const imgBaseUrl = "https://image.tmdb.org/t/p/original/";
   const [trailerUrl, setTrailerUrl] = useState("");
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const sliderRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -55,26 +58,30 @@ const Row = ({ fetchUrl, title, isLargeRow }) => {
     }
   };
 
-  const handleMovieClick = (movie) => {
-    if (trailerUrl) {
-      setTrailerUrl("");
-    } else {
-      movieTrailer(movie?.name || movie?.title || movie?.original_name)
-        .then((url) => {
-          const urlParams = new URLSearchParams(new URL(url).search);
-          setTrailerUrl(urlParams.get("v"));
-        })
-        .catch((error) => console.error(error));
+  const handleMovieClick = async (movie) => {
+    setSelectedMovie(movie);
+    setIsModalOpen(true);
+    
+    try {
+      const url = await movieTrailer(movie?.name || movie?.title || movie?.original_name);
+      if (url) {
+        const urlParams = new URLSearchParams(new URL(url).search);
+        setTrailerUrl(urlParams.get("v"));
+      } else {
+        setTrailerUrl(null);
+      }
+    } catch (error) {
+      console.error('Error finding trailer:', error);
+      setTrailerUrl(null);
     }
   };
 
-  const opts = {
-    width: "100%",
-    height: "390",
-    playerVars: {
-      autoplay: 1,
-    },
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setTrailerUrl("");
+    setSelectedMovie(null);
   };
+
 
   return (
     <div
@@ -106,20 +113,29 @@ const Row = ({ fetchUrl, title, isLargeRow }) => {
           movies.map((movie, index) => {
             const imagePath = isLargeRow ? movie.poster_path : movie.backdrop_path;
             return imagePath && ( // Check if imagePath is not null before rendering
-              <img
-                key={index}
-                onClick={() => handleMovieClick(movie)}
-                src={`${imgBaseUrl}${imagePath}`}
-                className={`row_poster ${isLargeRow ? "row_posterLarge" : ""}`}
-                alt={movie.name || movie.title || movie.original_name}
-              />
+              <div key={index} className="poster-container">
+                <img
+                  onClick={() => handleMovieClick(movie)}
+                  src={`${imgBaseUrl}${imagePath}`}
+                  className={`row_poster ${isLargeRow ? "row_posterLarge" : ""}`}
+                  alt={movie.name || movie.title || movie.original_name}
+                />
+                <div className="play-overlay" onClick={() => handleMovieClick(movie)}>
+                  <PlayArrowIcon className="play-icon" />
+                  <span className="play-text">Watch Trailer</span>
+                </div>
+              </div>
             );
           })
         )}
       </div>
-      <div style={{ padding: "40px" }}>
-        {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
-      </div>
+      
+      <TrailerModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        movieTitle={selectedMovie?.name || selectedMovie?.title || selectedMovie?.original_name || 'Unknown'}
+        trailerUrl={trailerUrl}
+      />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./css/header.css";
-import NetflixLogo from "../../assets/images/netflix-logo (1).png";
+import HabeshaPlayLogo from "../../assets/images/habeshaplay.png";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
@@ -16,10 +16,10 @@ function Header() {
           <ul>
             <li>
               <img
-                width="100"
-                src={NetflixLogo}
-                alt="Netflix Logo"
-                onError={(e) => (e.target.src = "/defaultLogo.png")} // Fallback image
+                width="150"
+                src={HabeshaPlayLogo}
+                alt="Habesha Play Logo"
+                onError={(e) => (e.target.src = "/defaultLogo.png")} 
               />
             </li>
             <li>Home</li>
@@ -32,9 +32,7 @@ function Header() {
         </div>
         <div className="header_right">
           <ul>
-            <li onClick={() => setIsSearchVisible(!isSearchVisible)}>
-              {isSearchVisible ? <input type="text" /> : <SearchIcon />}
-            </li>
+            
             <li>
               <NotificationsNoneIcon />
             </li>

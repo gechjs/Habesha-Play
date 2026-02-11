@@ -9,9 +9,9 @@ function Footer() {
     <div className="footer_outer_container">
       <div className="footer_inner_container">
         <div className="footer_icon">
-          <FacebookOutlinedIcon />
+          {/* <FacebookOutlinedIcon />
           <YouTubeIcon />
-          <InstagramIcon />
+          <InstagramIcon /> */}
         </div>
 
         <div className="footer_data">
@@ -19,7 +19,8 @@ function Footer() {
             <ul>
               <li>Audio Description</li>
               <li>Investor Relations</li>
-              <li>Legal Notices</li> 
+              <li>Legal Notices</li>
+              <li>Trailer</li> 
             </ul>
           </div>
           <div>
@@ -50,7 +51,7 @@ function Footer() {
         </div>
 
         <div className="copy_write">
-          &copy; 1997-2024 Netflix, Inc.
+          &copy; 1997-2024 Habesha Play, Inc.
         </div>
       </div>
     </div>

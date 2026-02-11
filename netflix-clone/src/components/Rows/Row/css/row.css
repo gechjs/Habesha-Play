@@ -3,11 +3,12 @@
 }
 
 .row_poster {
-  width: 100%;
+  width: 200px !important;
   object-fit: contain;
-  max-height: 100px;
+  max-height: 250px !important;
   transition: transform 450ms;
-  margin-right: 10px;
+  height: auto !important;
+  min-height: 210px !important;
 }
 
 .row_posters {
@@ -24,7 +25,10 @@
   transform: scale(1.08);
 }
 .row_posterLarge {
-  max-height: 250px;
+  width: 200px !important;
+  max-height: 270px !important;
+  min-height: 250px !important;
+  height: auto !important;
 }
 .row_posterLarge:hover {
   transform: scale(1.09);
@@ -71,5 +75,54 @@
 }
 
 .rightArrow:hover {
-  background-color: rgba(0, 0, 0, 0.75); /
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.poster-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.poster-container .row_poster {
+  margin-right: 0;
+}
+
+.play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.poster-container:hover .play-overlay {
+  opacity: 1;
+}
+
+.play-icon {
+  font-size: 4rem !important;
+  color: #e50914;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+  margin-right: 10px;
+}
+
+.play-text {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.poster-container:hover .play-icon {
+  transform: scale(1);
 }

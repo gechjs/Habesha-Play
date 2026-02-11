@@ -10,7 +10,7 @@ const Banner = () => {
   useEffect(() => {
     const getMovie = async () => {
       try {
-        const response = await instance.get(requests.fetchNetflixOriginals);
+        const response = await instance.get(requests.fetchHabeshaPlayOriginals);
         const filteredMovies = response.data.results.filter(
           (movie) => movie.vote_average >= 7
         );
